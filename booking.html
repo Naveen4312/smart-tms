@@ -1,0 +1,90 @@
+<head>
+    <!-- ...existing code... -->
+    <link rel="stylesheet" href="styles/booking.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <!-- ...existing code... -->
+
+    <form id="bookingForm">
+        <!-- ...existing booking form fields... -->
+
+        <div class="payment-section">
+            <h3>Select Payment Method</h3>
+            <input type="hidden" name="payment_method" id="payment_method" value="">
+            <div class="payment-buttons">
+                <button type="button" class="payment-btn cash-btn" data-method="cash">
+                    <i class="fas fa-money-bill"></i>
+                    Cash
+                </button>
+                <button type="button" class="payment-btn credit-card-btn" data-method="credit">
+                    <i class="fas fa-credit-card"></i>
+                    Credit Card
+                </button>
+                <button type="button" class="payment-btn upi-btn" data-method="upi">
+                    <i class="fas fa-mobile-alt"></i>
+                    UPI Payment
+                </button>
+                <button type="button" class="payment-btn netbanking-btn" data-method="netbanking">
+                    <i class="fas fa-university"></i>
+                    Net Banking
+                </button>
+                <button type="button" class="payment-btn dummy-btn" data-method="dummy">
+                    <i class="fas fa-money-bill-wave"></i>
+                    Dummy Payment
+                </button>
+            </div>
+
+            <!-- Dummy input fields for each payment method -->
+            <div id="cash-fields" class="payment-fields" style="display:none;">
+                <label>Cash Received By: <input type="text" name="cash_received_by" /></label>
+            </div>
+            <div id="credit-fields" class="payment-fields" style="display:none;">
+                <label>Card Number: <input type="text" name="credit_card_number" maxlength="16" /></label><br>
+                <label>Expiry: <input type="text" name="credit_card_expiry" placeholder="MM/YY" maxlength="5" /></label><br>
+                <label>CVV: <input type="password" name="credit_card_cvv" maxlength="3" /></label>
+            </div>
+            <div id="upi-fields" class="payment-fields" style="display:none;">
+                <label>UPI ID: <input type="text" name="upi_id" placeholder="example@upi" /></label>
+            </div>
+            <div id="netbanking-fields" class="payment-fields" style="display:none;">
+                <label>Account Holder Name: <input type="text" name="netbanking_name" /></label>
+            </div>
+            <div id="dummy-fields" class="payment-fields" style="display:none;">
+                <label>Dummy Info: <input type="text" name="dummy_info" placeholder="Enter any dummy info" /></label>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Apply</button>
+    </form>
+
+    <!-- Place your script here, before </body> -->
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const paymentBtns = document.querySelectorAll('.payment-btn');
+    const paymentMethodInput = document.getElementById('payment_method');
+    const fields = {
+        cash: document.getElementById('cash-fields'),
+        credit: document.getElementById('credit-fields'),
+        upi: document.getElementById('upi-fields'),
+        netbanking: document.getElementById('netbanking-fields'),
+        dummy: document.getElementById('dummy-fields')
+    };
+
+    paymentBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            paymentMethodInput.value = this.dataset.method;
+            paymentBtns.forEach(b => b.classList.remove('selected'));
+            this.classList.add('selected');
+            // Hide all fields
+            Object.values(fields).forEach(div => div.style.display = 'none');
+            // Show selected
+            if(fields[this.dataset.method]) {
+                fields[this.dataset.method].style.display = 'block';
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>
